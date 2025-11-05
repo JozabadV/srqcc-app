@@ -45,3 +45,6 @@ Desktop.ini
 ## Local databases ##
 *.db
 *.sqlite
+
+# Solution files
+*.sln

@@ -1,6 +1,8 @@
-name: Build MAUI iOS Simple
+﻿name: Build MAUI iOS
 
 on:
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -8,26 +10,53 @@ jobs:
     runs-on: macos-latest
     
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout código
+      uses: actions/checkout@v4
       
-    - name: Setup .NET
+    - name: Setup .NET 9
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '9.0.x'
         
-    - name: Install MAUI
-      run: dotnet workload install maui-ios
-      
-    - name: Build iOS App
+    - name: Install MAUI workloads
       run: |
-        dotnet build SRQCC.csproj \
-          -c Release \
-          -f net9.0-ios \
-          -p:Platform=iPhoneSimulator \
-          -p:BuildIpa=false
+        dotnet workload install maui
+        dotnet workload install maui-ios
+        dotnet workload restore
+      
+    - name: Eliminar o ignorar archivo .sln si existe
+      run: |
+        if [ -f "*.sln" ]; then
+          echo "⚠️  Se encontró archivo .sln, puede causar conflictos"
+          ls -la *.sln
+        fi
+      
+    - name: Build para Simulador (.app) - FORZAR csproj
+      run: |
+        dotnet build SRQCC.csproj -c Release -f net9.0-ios \
+        -p:Platform=iPhoneSimulator \
+        -p:BuildIpa=false \
+        --verbosity minimal
+      
+    - name: Build para Dispositivo (.ipa)
+      run: |
+        dotnet build SRQCC.csproj -c Release -f net9.0-ios \
+        -p:Platform=iPhone \
+        -p:BuildIpa=true \
+        --verbosity minimal
         
-    - name: Upload App Artifact
+    - name: Listar archivos generados
+      run: |
+        echo "=== Buscando archivos .app ==="
+        find . -name "*.app" -type d 2>/dev/null || echo "No .app files found"
+        echo "=== Buscando archivos .ipa ==="
+        find . -name "*.ipa" -type f 2>/dev/null || echo "No .ipa files found"
+        
+    - name: Subir artefactos
+      if: success()
       uses: actions/upload-artifact@v4
       with:
-        name: ios-app
-        path: "**/bin/Release/net9.0-ios/**/*.app"
+        name: ios-build-output
+        path: |
+          **/bin/Release/net9.0-ios/**
+        retention-days: 30
