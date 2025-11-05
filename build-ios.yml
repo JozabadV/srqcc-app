@@ -1,4 +1,4 @@
-﻿name: Build iOS with .NET 8
+﻿name: Build iOS .NET 8
 
 on: workflow_dispatch
 
@@ -7,27 +7,18 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Setup .NET 8
-      uses: actions/setup-dotnet@v4
+    - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
     
-    - name: Install MAUI for .NET 8
-      run: |
-        dotnet workload install maui
-        dotnet workload install maui-ios
+    - name: Install MAUI
+      run: dotnet workload install maui-ios
       
-    - name: Build for iOS Simulator
-      run: |
-        dotnet build SRQCC.csproj \
-          -c Release \
-          -f net8.0-ios \
-          -p:Platform=iPhoneSimulator \
-          -p:BuildIpa=false
+    - name: Build iOS
+      run: dotnet build -c Release -f net8.0-ios -p:Platform=iPhoneSimulator
         
     - name: Upload App
       uses: actions/upload-artifact@v4
       with:
-        name: ios-app-simulator
+        name: ios-app
         path: "**/bin/Release/net8.0-ios/**/*.app"
