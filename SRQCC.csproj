@@ -1,9 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		
-		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net9.0-tizen</TargetFrameworks> -->
+
+		<!-- Note for MacCatalyst:
+    The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
+    When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
+    The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
+    either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
+		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
 		<OutputType>Exe</OutputType>
 		<RootNamespace>SRQCC</RootNamespace>
@@ -12,41 +20,45 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
+		<!-- Display name -->
 		<ApplicationTitle>SRQCC</ApplicationTitle>
+
+		<!-- App Identifier -->
 		<ApplicationId>com.companyname.srqcc</ApplicationId>
+
+		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
+
+		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>
 
-		<!--  SOLO CAMBIAR ESTAS LÍNEAS  -->
+		<!-- ✅✅✅ VERSIONES COMPATIBLES - MANTENER .NET 9 ✅✅✅ -->
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">16.4</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">16.4</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
-
-		<!-- ⚠️ REMOVER estas líneas si las agregaste -->
-		<!-- <RuntimeFrameworkVersion>9.0.0</RuntimeFrameworkVersion> -->
-		<!-- <MauiVersion>9.0.0</MauiVersion> -->
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 
 		<AndroidSigningKeyStore>srqcc-release.keystore</AndroidSigningKeyStore>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidSigningStorePass>Srqcc01!</AndroidSigningStorePass>
-	  <AndroidSigningKeyAlias>srqcc</AndroidSigningKeyAlias>
-	  <AndroidSigningKeyPass>Srqcc01!</AndroidSigningKeyPass>
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidSigningStorePass>Srqcc01!</AndroidSigningStorePass>
+		<AndroidSigningKeyAlias>srqcc</AndroidSigningKeyAlias>
+		<AndroidSigningKeyPass>Srqcc01!</AndroidSigningKeyPass>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidSigningStorePass>Srqcc01!</AndroidSigningStorePass>
-	  <AndroidSigningKeyAlias>srqcc</AndroidSigningKeyAlias>
-	  <AndroidSigningKeyPass>Srqcc01!</AndroidSigningKeyPass>
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidSigningStorePass>Srqcc01!</AndroidSigningStorePass>
+		<AndroidSigningKeyAlias>srqcc</AndroidSigningKeyAlias>
+		<AndroidSigningKeyPass>Srqcc01!</AndroidSigningKeyPass>
 	</PropertyGroup>
-	
 
+	<!-- EL RESO DE TU ARCHIVO SE MANTIENE IGUAL -->
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.png" />
@@ -57,7 +69,7 @@
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
-		
+
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
 

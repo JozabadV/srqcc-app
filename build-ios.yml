@@ -1,10 +1,10 @@
-﻿name: Build iOS with macOS 15
+﻿name: Build iOS macOS 15
 
 on: workflow_dispatch
 
 jobs:
   build:
-    runs-on: macos-15  # ← NUEVA VERSIÓN
+    runs-on: macos-15
     
     steps:
     - uses: actions/checkout@v4
@@ -12,13 +12,17 @@ jobs:
       with:
         dotnet-version: '9.0.x'
     
-    - name: Check Xcode version
-      run: xcodebuild -version
-      
+    - name: Check environment
+      run: |
+        echo "=== Xcode ==="
+        xcodebuild -version
+        echo "=== .NET ==="
+        dotnet --version
+        
     - name: Install MAUI
       run: dotnet workload install maui-ios
       
-    - name: Build iOS
+    - name: Build iOS Simulator
       run: dotnet build SRQCC.csproj -c Release -f net9.0-ios -p:Platform=iPhoneSimulator
         
     - name: Upload App
