@@ -11,28 +11,22 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-		<!-- Display name -->
 		<ApplicationTitle>SRQCC</ApplicationTitle>
-
-		<!-- App Identifier -->
 		<ApplicationId>com.companyname.srqcc</ApplicationId>
-
-		<!-- Versiones COMPATIBLES con Xcode 16.4 -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
-
 		<WindowsPackageType>None</WindowsPackageType>
 
-		<!-- VERSIÓN COMPATIBLE CON XCODE 16.4  -->
+		<!--  SOLO CAMBIAR ESTAS LÍNEAS  -->
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">16.4</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">16.4</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 
-		<!-- FORZAR VERSIÓN COMPATIBLE DEL iOS SDK -->
-		<RuntimeFrameworkVersion>9.0.0</RuntimeFrameworkVersion>
-		<MauiVersion>9.0.0</MauiVersion>
+		<!-- ⚠️ REMOVER estas líneas si las agregaste -->
+		<!-- <RuntimeFrameworkVersion>9.0.0</RuntimeFrameworkVersion> -->
+		<!-- <MauiVersion>9.0.0</MauiVersion> -->
 
 		<AndroidSigningKeyStore>srqcc-release.keystore</AndroidSigningKeyStore>
 	</PropertyGroup>
