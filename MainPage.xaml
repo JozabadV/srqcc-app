@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SRQCC.MainPage"
+             Title="Inicio"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="0">
+
+
+            <!--  BLOQUE VERDE solo con texto -->
+            <Border
+            Padding="30,05,30,05"
+            BackgroundColor="#16A34A"
+            HorizontalOptions="Fill"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 15">
+
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="15">
+
+                    <!-- Bienvenido y Nombre -->
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
+                        <Label
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Text="Bienvenido/a"
+                        TextColor="White" />
+
+                        <Label
+                        x:Name="NombreLabel"
+                        FontAttributes="Bold"
+                        FontSize="26"
+                        HorizontalOptions="Center"
+                        LineBreakMode="WordWrap"
+                        LineHeight="1.2"
+                        MaxLines="2"
+                        Text="USUARIO"
+                        TextColor="White" />
+
+                        <Label
+                        x:Name="CodigoLabel"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="Código: 123456"
+                        TextColor="#FEF08A" />
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!--  FOTO MUY GRANDE (fuera del bloque verde) -->
+            <Border
+            HeightRequest="380"
+            WidthRequest="380"
+            Padding="0"
+            BackgroundColor="White"
+            Stroke="#E2E8F0"
+            StrokeThickness="3"
+            StrokeShape="RoundRectangle 90"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Margin="0,0,0,20">
+                <!-- Margen inferior para separar del bloque verde -->
+
+                <Image
+                x:Name="UserPhotoImage"
+                HeightRequest="380"
+                WidthRequest="380"
+                Aspect="AspectFill"
+                Source="user_placeholder.png">
+
+                    <!-- Placeholder mientras carga -->
+                    <Image.Triggers>
+                        <DataTrigger
+                        TargetType="Image"
+                        Binding="{Binding Source, Source={x:Reference UserPhotoImage}}"
+                        Value="{x:Null}">
+                            <Setter Property="Source" Value="user_placeholder.png" />
+                        </DataTrigger>
+                    </Image.Triggers>
+                </Image>
+            </Border>
+
+            <!-- Sección de QR Code -->
+            <Border
+            Padding="20"
+            BackgroundColor="White"
+            HorizontalOptions="Center"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 15">
+
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="15">
+
+                    <!--  NUEVO: Fecha y Hora exacta -->
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
+                        <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalOptions="Center"
+                        Text="📅 Fecha y Hora Actual"
+                        TextColor="#4A5568" />
+
+                        <Label
+                        x:Name="FechaLabel"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="Cargando..."
+                        TextColor="#16A34A" />
+
+                        <Label
+                        x:Name="HoraLabel"
+                        FontAttributes="Bold" 
+                        FontSize="22"
+                        HorizontalOptions="Center"
+                        Text="00:00:00"
+                        TextColor="#16A34A" />
+                    </VerticalStackLayout>
+
+                    <Label
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    HorizontalOptions="Center"
+                    Text="Código QR de Identificación"
+                    TextColor="#2D3748" />
+
+                    <!--  QR IMAGE -->
+                    <Image
+                    x:Name="QrImage"
+                    HeightRequest="175"
+                    HorizontalOptions="Center"
+                    WidthRequest="175" />
+
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Accesos rápidos -->
+            <Grid
+            ColumnDefinitions="*,*"
+            ColumnSpacing="15"
+            RowDefinitions="Auto">
+
+                <!-- Mi Perfil -->
+                <Border
+                Padding="15"
+                BackgroundColor="#E6F7FF"
+                HorizontalOptions="Fill"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 12">
+
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
+                        <Image
+                        HeightRequest="30"
+                        HorizontalOptions="Center"
+                        Source="icon_profile.png"
+                        WidthRequest="30" />
+
+                        <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="Center"
+                        Text="Mi Perfil"
+                        TextColor="#1890FF" />
+                    </VerticalStackLayout>
+
+                    <!--  TapGesture para navegar a MiPerfil -->
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnPerfilTapped" />
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <!-- Mis Pagos -->
+                <Border
+                Grid.Column="1"
+                Padding="15"
+                BackgroundColor="#F6FFED"
+                HorizontalOptions="Fill"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 12">
+
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
+                        <Image
+                        HeightRequest="30"
+                        HorizontalOptions="Center"
+                        Source="icon_payments.png"
+                        WidthRequest="30" />
+
+                        <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="Center"
+                        Text="Mis Pagos"
+                        TextColor="#52C41A" />
+                    </VerticalStackLayout>
+
+                    <!--  TapGesture para navegar a MisPagos -->
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnPagosTapped" />
+                    </Border.GestureRecognizers>
+                </Border>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

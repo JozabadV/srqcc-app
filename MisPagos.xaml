@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SRQCC.MisPagos"
+             Title="MisPagos"
+             BackgroundColor="#F8FAFC">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="25">
+
+            <!--  Título de la página  -->
+            <Border
+            Padding="20"
+            BackgroundColor="#16A34A"
+            HorizontalOptions="Fill"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 15">
+
+                <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
+                    <Image
+                    HeightRequest="30"
+                    Source="icon_payments.png"
+                    VerticalOptions="Center"
+                    WidthRequest="30" />
+
+                    <Label
+                    FontAttributes="Bold"
+                    FontSize="22"
+                    Text="Estado de Pagos"
+                    TextColor="White"
+                    VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+
+            <!--  Indicador de Estado de Pago  -->
+            <Border
+            x:Name="EstadoPagoBorder"
+            Padding="20"
+            BackgroundColor="White"
+            HorizontalOptions="Fill"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 15">
+
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
+
+                    <!--  Círculo indicador con icono  -->
+                    <Border
+                    x:Name="EstadoCircle"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    BackgroundColor="Gray"
+                    HeightRequest="50"
+                    HorizontalOptions="Center"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 25"
+                    VerticalOptions="Center"
+                    WidthRequest="50">
+
+                        <Image
+                        x:Name="EstadoIcon"
+                        HeightRequest="25"
+                        HorizontalOptions="Center"
+                        Source="icon_question.png"
+                        VerticalOptions="Center"
+                        WidthRequest="25" />
+                    </Border>
+
+                    <!--  Texto principal del estado  -->
+                    <Label
+                    x:Name="EstadoLabel"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="15,0,0,0"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="Verificando estado..."
+                    TextColor="#2D3748"
+                    VerticalOptions="End" />
+
+                    <!--  Texto secundario  -->
+                    <Label
+                    x:Name="DetalleLabel"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="15,2,0,0"
+                    FontSize="14"
+                    Text="Cargando información de pago"
+                    TextColor="#718096"
+                    VerticalOptions="Start" />
+
+
+                </Grid>
+            </Border>
+
+            <!--  Botón para actualizar  -->
+            <Button
+            x:Name="ActualizarButton"
+            BackgroundColor="#25D366"
+            Clicked="OnActualizarEstadoClicked"
+            CornerRadius="12"
+            FontSize="16"
+            HeightRequest="50"
+            HorizontalOptions="Center"
+            Text="🔄 Actualizar Estado"
+            TextColor="White" />
+
+            <!--  Sección de información adicional  -->
+            <Border
+            Padding="20"
+            BackgroundColor="White"
+            HorizontalOptions="Fill"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 15">
+
+                <VerticalStackLayout Spacing="15">
+                    <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="📊 Resumen de Estado"
+                    TextColor="#2D3748" />
+
+                    <BoxView BackgroundColor="#E2E8F0" HeightRequest="1" />
+
+                    <Grid
+                    ColumnDefinitions="*,*"
+                    RowDefinitions="Auto,Auto"
+                    RowSpacing="10">
+                        <!--  Fecha de consulta  -->
+                        <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontSize="14"
+                        Text="📅 Fecha de consulta:"
+                        TextColor="#4A5568" />
+
+                        <Label
+                        x:Name="FechaConsultaLabel"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="End"
+                        Text="00/00/0000"
+                        TextColor="#2D3748" />
+
+                        <!--  Estado actual  -->
+                        <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        FontSize="14"
+                        Text="🎯 Estado actual:"
+                        TextColor="#4A5568" />
+
+                        <Label
+                        x:Name="EstadoActualLabel"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="End"
+                        Text="Verificando..."
+                        TextColor="#2D3748" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!--  Sección de Historial de Pagos  -->
+            <Border
+            Padding="20"
+            BackgroundColor="White"
+            HorizontalOptions="Fill"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 15">
+
+                <VerticalStackLayout Spacing="15">
+                    <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="📋 Historial de Pagos"
+                    TextColor="#2D3748" />
+
+                    <BoxView BackgroundColor="#E2E8F0" HeightRequest="1" />
+
+                    <!--  Selector de Año  -->
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <Picker
+                        x:Name="AnioPicker"
+                        Title="Seleccionar Año"
+                        FontSize="16"
+                        HorizontalOptions="Fill"
+                        ItemDisplayBinding="{Binding .}" />
+
+                        <Button
+                        Grid.Column="1"
+                        BackgroundColor="#25D366"
+                        Clicked="OnBuscarHistorialClicked"
+                        CornerRadius="8"
+                        HeightRequest="40"
+                        Text="Buscar"
+                        TextColor="White"
+                        WidthRequest="100" />
+                    </Grid>
+
+                    <!--  Contenedor de meses  -->
+                    <VerticalStackLayout x:Name="MesesContainer" Spacing="12">
+                        <!--  Los meses se generarán dinámicamente  -->
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <VerticalStackLayout Spacing="10">
+                <Button 
+                    Text="Pagos en linea"
+                    BackgroundColor="#25D366"
+                    TextColor="White"
+                    Padding="20,12"
+                    CornerRadius="10"
+                    HorizontalOptions="Center"
+                    Clicked="OnAbrirPagosEnLineaClicked"/>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

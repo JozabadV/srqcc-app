@@ -1,0 +1,64 @@
+name: Build MAUI iOS
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET 9
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+        
+    - name: Install MAUI workloads
+      run: |
+        dotnet workload install maui
+        dotnet workload restore
+      
+    - name: Restore dependencias
+      run: dotnet restore
+      
+    - name: Build para Simulador (.app)
+      run: |
+        dotnet build -c Release -f net9.0-ios \
+        -p:Platform=iPhoneSimulator \
+        -p:BuildIpa=false \
+        --verbosity normal
+      
+    - name: Build para Dispositivo (.ipa)
+      run: |
+        dotnet build -c Release -f net9.0-ios \
+        -p:Platform=iPhone \
+        -p:BuildIpa=true \
+        --verbosity normal
+        
+    - name: Listar archivos generados
+      run: |
+        echo "=== Buscando archivos .app ==="
+        find . -name "*.app" -type d | head -10
+        echo "=== Buscando archivos .ipa ==="
+        find . -name "*.ipa" -type f | head -10
+        
+    - name: Subir artefactos (.ipa)
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-ipa-file
+        path: |
+          **/bin/Release/net9.0-ios/iphone/*.ipa
+        retention-days: 30
+        
+    - name: Subir artefactos (.app)
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-app-simulator
+        path: |
+          **/bin/Release/net9.0-ios/iphonesimulator/*.app
+        retention-days: 30

@@ -1,0 +1,47 @@
+## MAUI Build outputs ##
+bin/
+obj/
+Build/
+*.user
+*.userosscache
+*.sln.docstates
+
+## Visual Studio ##
+.vs/
+*.suo
+*.userprefs
+*.csproj.user
+
+## Build artifacts ##
+*.apk
+*.ipa
+*.aab
+*.app
+*.pdb
+*.dll
+*.exe
+
+## Android signing keys - IMPORTANTE PROTEGER ##
+*.keystore
+*.jks
+srqcc-release.keystore
+
+## NuGet ##
+packages/
+*.nupkg
+.nuget/
+
+## Cache and temp files ##
+[Tt]humbs.db
+*.cache
+*.log
+*.tmp
+*.temp
+
+## System files ##
+.DS_Store
+Desktop.ini
+
+## Local databases ##
+*.db
+*.sqlite

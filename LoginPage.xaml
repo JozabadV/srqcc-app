@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SRQCC.LoginPage"
+             BackgroundColor="Transparent">
+
+    <Grid>
+        <!--  Imagen de fondo    
+    <Image Aspect="AspectFill" Source="srq_login_fondo2.jpg" /> -->
+
+        <!--
+        <Image Aspect="AspectFill" Source="srq_login_fondo.png" />
+        -->
+        <Image Aspect="AspectFill" Source="fondo1.jpg" />
+        
+       
+        <!--  Contenido principal  -->
+        <ScrollView>
+            <VerticalStackLayout
+            Padding="40,300,40,40"
+            Spacing="25"
+            VerticalOptions="Center">
+
+
+
+                <!--  Logo más grande y más arriba  
+                <Image
+                Margin="0,0,0,55"
+                HeightRequest="240"
+                HorizontalOptions="Center"
+                Source="srq_logo.png" />  -->
+
+                <!--  Campo de usuario  -->
+                <Border
+                Padding="0"
+                BackgroundColor="White"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 10"
+                StrokeThickness="0">
+                    <Grid Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image
+                        Grid.Column="0"
+                        HeightRequest="24"
+                        Source="icon_user.png"
+                        VerticalOptions="Center"
+                        WidthRequest="24" />
+                        <Entry
+                        x:Name="UsernameEntry"
+                        Grid.Column="1"
+                        FontSize="16"
+                        HorizontalOptions="Fill"
+                        Placeholder="Documento de identidad"
+                        TextColor="Black"
+                        TextTransform="Uppercase" />
+                    </Grid>
+                </Border>
+
+                <!-- Campo de contraseña -->
+                <Border
+                Padding="0"
+                BackgroundColor="White"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 10"
+                StrokeThickness="0">
+                    <Grid Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Icono de candado -->
+                        <Image
+                        Grid.Column="0"
+                        HeightRequest="24"
+                        Source="icon_lock.png"
+                        VerticalOptions="Center"
+                        WidthRequest="24" />
+
+                        <!-- Campo de contraseña -->
+                        <Entry
+                        x:Name="PasswordEntry"
+                        Grid.Column="1"
+                        FontSize="16"
+                        HorizontalOptions="Fill"
+                        IsPassword="True"
+                        Placeholder="Contraseña"
+                        TextColor="Black" />
+
+                        <!-- Botón para mostrar/ocultar contraseña -->
+                        <Button
+                        Grid.Column="2"
+                                x:Name="TogglePasswordButton"
+                        BackgroundColor="Transparent"
+                        BorderWidth="0"
+                        Clicked="OnTogglePasswordVisibility"
+                        HeightRequest="24"
+                        HorizontalOptions="Center"
+                        Padding="0"
+                        VerticalOptions="Center"
+                        WidthRequest="24">
+                            <Button.ImageSource>
+                                <FileImageSource File="eye_closed.png" />
+                            </Button.ImageSource>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!--  Botón de inicio de sesión  -->
+                <Button
+                x:Name="LoginButton"
+                BackgroundColor="#25D366"
+                Clicked="OnLoginClicked"
+                CornerRadius="10"
+                FontSize="18"
+                HeightRequest="50"
+                HorizontalOptions="Fill"
+                Text="Iniciar sesión"
+                TextColor="Black" />
+
+                <!--  Enlace de recuperación  -->
+                <Label
+                x:Name="ForgotPasswordLabel"
+                FontSize="14"
+                HorizontalOptions="Center"
+                Text="¿Olvidaste tu contraseña?"
+                TextColor="Black">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnForgotPasswordTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+
+</ContentPage>

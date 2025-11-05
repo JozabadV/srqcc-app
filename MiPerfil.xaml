@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SRQCC.MiPerfil"
+             Title="Mi Perfil"
+             BackgroundColor="#F8FAFC">
+
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Header con foto de perfil - DISEÑO MEJORADO -->
+            <Border
+            Padding="25"
+            BackgroundColor="#16A34A"
+            HorizontalOptions="Fill"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 15">
+
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="15">
+
+                    <!-- Foto de perfil MÁS GRANDE -->
+                    <Border
+                    HeightRequest="120"
+                    WidthRequest="120"
+                    Padding="0"
+                    BackgroundColor="White"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 60"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+
+                        <Image
+                        x:Name="UserPhotoImage"
+                        HeightRequest="120"
+                        WidthRequest="120"
+                        Aspect="AspectFill"
+                        Source="user_placeholder.png">
+
+                            <!-- Placeholder mientras carga -->
+                            <Image.Triggers>
+                                <DataTrigger
+                                TargetType="Image"
+                                Binding="{Binding Source, Source={x:Reference UserPhotoImage}}"
+                                Value="{x:Null}">
+                                    <Setter Property="Source" Value="user_placeholder.png" />
+                                </DataTrigger>
+                            </Image.Triggers>
+                        </Image>
+                    </Border>
+
+                    <!-- Información básica - DEBAJO DE LA FOTO -->
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
+
+                        <Label
+                        x:Name="NombreLabel"
+                        FontAttributes="Bold"
+                        FontSize="26"
+                        HorizontalOptions="Center"
+                        LineBreakMode="WordWrap"
+                        LineHeight="1.2"
+                        MaxLines="2"
+                        Text="Cargando..."
+                        TextColor="White" />
+
+                        <Label
+                        x:Name="CodigoLabel"
+                        FontSize="16"
+                        HorizontalOptions="Center"
+                        Text="Código: "
+                        TextColor="#FEF08A" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Tarjeta de información personal -->
+            <Border
+            Padding="20"
+            BackgroundColor="White"
+            HorizontalOptions="Fill"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 15">
+
+                <VerticalStackLayout Spacing="15">
+                    <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="📋 Información Personal"
+                    TextColor="#2D3748" />
+
+                    <!--  NUEVO: Enlace Actualizar Información -->
+                    <Label
+                        Grid.Column="1"
+                        FontSize="14"
+                        Text="Actualizar mi información"
+                        TextColor="#2563EB"
+                        TextDecorations="Underline">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnActualizarInfoTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <BoxView BackgroundColor="#E2E8F0" HeightRequest="1" />
+
+                    <!-- Grid de información -->
+                    <Grid
+                    ColumnDefinitions="Auto,*"
+                    ColumnSpacing="10"
+                    RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                    RowSpacing="12">
+
+                        <!-- Documento -->
+                        <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontSize="14"
+                        Text="📄 Documento:"
+                        TextColor="#4A5568" />
+
+                        <Label
+                        x:Name="DocumentoLabel"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="End"
+                        Text=""
+                        TextColor="#2D3748" />
+
+                        <!-- Teléfono -->
+                        <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        FontSize="14"
+                        Text="📞 Teléfono:"
+                        TextColor="#4A5568" />
+
+                        <Label
+                        x:Name="TelefonoLabel"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="End"
+                        Text=""
+                        TextColor="#2D3748" />
+
+                        <!-- Email -->
+                        <Label
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        FontSize="14"
+                        Text="✉️ Email:"
+                        TextColor="#4A5568" />
+
+                        <Label
+                        x:Name="EmailLabel"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="End"
+                        Text=""
+                        TextColor="#2D3748" />
+
+                        <!-- Estado -->
+                        <Label
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        FontSize="14"
+                        Text="🎯 Estado:"
+                        TextColor="#4A5568" />
+
+                        <Label
+                        x:Name="EstadoLabel"
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="End"
+                        Text=""
+                        TextColor="#2D3748" />
+
+                        <!-- Nombres -->
+                        <Label
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        FontSize="14"
+                        Text="👤 Nombres:"
+                        TextColor="#4A5568" />
+
+                        <Label
+                        x:Name="NombresLabel"
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="End"
+                        Text=""
+                        TextColor="#2D3748" />
+
+                        <!-- Apellido Paterno -->
+                        <Label
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        FontSize="14"
+                        Text="👥 Apellido Paterno:"
+                        TextColor="#4A5568" />
+
+                        <Label
+                        x:Name="ApellidoPaternoLabel"
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="End"
+                        Text=""
+                        TextColor="#2D3748" />
+
+                        <!-- Apellido Materno -->
+                        <Label
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        FontSize="14"
+                        Text="👥 Apellido Materno:"
+                        TextColor="#4A5568" />
+
+                        <Label
+                        x:Name="ApellidoMaternoLabel"
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="End"
+                        Text=""
+                        TextColor="#2D3748" />
+
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Tarjeta de información de los dependientes -->
+            <Border
+            Padding="20"
+            BackgroundColor="White"
+            HorizontalOptions="Fill"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 15">
+
+                <VerticalStackLayout Spacing="15">
+                    <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="👨‍👩‍👧‍👦 Dependientes"
+                    TextColor="#2D3748" />
+
+                    <!-- NUEVO: Enlace Actualizar Dependientes -->
+                    <Label
+                        Grid.Column="1"
+                        FontSize="14"
+                        Text="Actualizar mis dependientes"
+                        TextColor="#2563EB"
+                        TextDecorations="Underline">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnActualizarDependientesTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <BoxView BackgroundColor="#E2E8F0" HeightRequest="1" />
+
+                    <!-- Lista de dependientes -->
+                    <CollectionView x:Name="DependientesCollectionView">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                Padding="15"
+                                BackgroundColor="#F7FAFC"
+                                Stroke="Transparent"
+                                StrokeShape="RoundRectangle 10"
+                                Margin="0,0,0,10">
+
+                                    <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto, Auto">
+                                        <!-- Nombre completo -->
+                                        <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        FontSize="14"
+                                        Text="{Binding NombreCompleto}"
+                                        TextColor="#2D3748"
+                                        VerticalOptions="Center" />
+
+                                        <!-- Tipo de dependiente -->
+                                        <Label
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        FontSize="12"
+                                        Text="{Binding TipoDependiente}"
+                                        TextColor="#718096"
+                                        VerticalOptions="Center" />
+
+                                        <!-- ✅ NUEVO: DNI del dependiente -->
+                                        <Label
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        FontSize="12"
+                                        Text="{Binding Dni, StringFormat='DNI: {0}'}"
+                                        TextColor="#4A5568"
+                                        Margin="0,5,0,0" />
+
+                                        <!-- Línea separadora -->
+                                        <BoxView
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        BackgroundColor="#E2E8F0"
+                                        HeightRequest="1"
+                                        Margin="0,8,0,0" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!-- Mensaje cuando no hay dependientes -->
+                    <Label
+                    x:Name="SinDependientesLabel"
+                    FontSize="14"
+                    HorizontalOptions="Center"
+                    IsVisible="False"
+                    Text="No se encontraron dependientes registrados"
+                    TextColor="#718096" />
+
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+    
+</ContentPage>
