@@ -1,8 +1,6 @@
-﻿name: Build MAUI iOS
+﻿name: Build MAUI iOS Compatible
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -13,56 +11,28 @@ jobs:
     - name: Checkout código
       uses: actions/checkout@v4
       
-    - name: Setup .NET 9
+    - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '9.0.x'
         
-    - name: Verificar versión de Xcode
+    - name: Install MAUI with specific version
       run: |
-        xcodebuild -version
-        xcode-select -p
-        
-    - name: Install MAUI workload compatible
-      run: |
-        # Instalar versión específica compatible
-        dotnet workload install maui --version 9.0.24
-        dotnet workload install maui-ios --version 9.0.24
-        dotnet workload restore
+        # Instalar versión específica compatible con Xcode 16.4
+        dotnet workload install maui --version 9.0.0
+        dotnet workload install maui-ios --version 9.0.0
       
-    - name: Restore dependencias
-      run: dotnet restore SRQCC.csproj
-      
-    - name: Build para Simulador (.app)
+    - name: Build para Simulador
       run: |
-        dotnet build SRQCC.csproj -c Release -f net9.0-ios \
-        -p:Platform=iPhoneSimulator \
-        -p:BuildIpa=false \
-        -p:UseMSBuildEngine=false \
-        --verbosity normal
-      
-    - name: Build para Dispositivo (.ipa)
-      run: |
-        dotnet build SRQCC.csproj -c Release -f net9.0-ios \
-        -p:Platform=iPhone \
-        -p:BuildIpa=true \
-        -p:UseMSBuildEngine=false \
-        --verbosity normal
+        dotnet build SRQCC.csproj \
+          -c Release \
+          -f net9.0-ios \
+          -p:Platform=iPhoneSimulator \
+          -p:BuildIpa=false \
+          -p:MtouchLink=SdkOnly
         
-    - name: Listar archivos generados
-      run: |
-        echo "=== Buscando archivos .app ==="
-        find . -name "*.app" -type d 2>/dev/null || echo "No .app files found"
-        echo "=== Buscando archivos .ipa ==="
-        find . -name "*.ipa" -type f 2>/dev/null || echo "No .ipa files found"
-        echo "=== Contenido de bin/Release/ ==="
-        ls -la bin/Release/net9.0-ios*/ 2>/dev/null || echo "No bin directory found"
-        
-    - name: Subir artefactos
-      if: success()
+    - name: Upload App Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ios-build-artifacts
-        path: |
-          **/bin/Release/net9.0-ios/**
-        retention-days: 30
+        name: ios-app-simulator
+        path: "**/bin/Release/net9.0-ios/**/*.app"
