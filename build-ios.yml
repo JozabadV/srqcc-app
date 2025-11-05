@@ -1,10 +1,10 @@
-﻿name: Build iOS macOS 15
+﻿name: Build iOS Force
 
 on: workflow_dispatch
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-latest
     
     steps:
     - uses: actions/checkout@v4
@@ -12,21 +12,17 @@ jobs:
       with:
         dotnet-version: '9.0.x'
     
-    - name: Check environment
+    - name: Install MAUI ignoring warnings
       run: |
-        echo "=== Xcode ==="
-        xcodebuild -version
-        echo "=== .NET ==="
-        dotnet --version
-        
-    - name: Install MAUI
-      run: dotnet workload install maui-ios
+        dotnet workload install maui-ios --ignore-failed-sources
+        dotnet workload restore --ignore-failed-sources
       
-    - name: Build iOS Simulator
-      run: dotnet build SRQCC.csproj -c Release -f net9.0-ios -p:Platform=iPhoneSimulator
-        
-    - name: Upload App
-      uses: actions/upload-artifact@v4
-      with:
-        name: ios-app
-        path: "**/bin/Release/net9.0-ios/**/*.app"
+    - name: Build with specific SDK
+      run: |
+        dotnet build SRQCC.csproj \
+          -c Release \
+          -f net9.0-ios \
+          -p:Platform=iPhoneSimulator \
+          -p:BuildIpa=false \
+          -p:MicrosoftNETCoreAppVersion=9.0.0 \
+          --no-restore
