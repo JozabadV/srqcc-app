@@ -1,8 +1,6 @@
-name: Build MAUI iOS
+name: Build MAUI iOS Simple
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -10,67 +8,26 @@ jobs:
     runs-on: macos-latest
     
     steps:
-    - name: Checkout código
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
       
-    - name: Setup .NET 9
+    - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '9.0.x'
         
-    - name: Install MAUI workloads
-      run: |
-        dotnet workload install maui
-        dotnet workload install maui-ios
-        dotnet workload restore
+    - name: Install MAUI
+      run: dotnet workload install maui-ios
       
-    - name: Restore dependencias
-      run: dotnet restore SRQCC.csproj
-      
-    - name: Verificar proyecto
+    - name: Build iOS App
       run: |
-        ls -la *.csproj
-        ls -la Platforms/iOS/ || echo "Platforms/iOS/ no existe"
-      
-    - name: Build para Simulador (.app)
-      run: |
-        dotnet build SRQCC.csproj -c Release -f net9.0-ios \
-        -p:Platform=iPhoneSimulator \
-        -p:BuildIpa=false \
-        -p:ServerAddress=0.0.0.0 \
-        -p:ServerUser=runner \
-        --verbosity normal
-      
-    - name: Build para Dispositivo (.ipa)
-      run: |
-        dotnet build SRQCC.csproj -c Release -f net9.0-ios \
-        -p:Platform=iPhone \
-        -p:BuildIpa=true \
-        -p:ServerAddress=0.0.0.0 \
-        -p:ServerUser=runner \
-        --verbosity normal
+        dotnet build SRQCC.csproj \
+          -c Release \
+          -f net9.0-ios \
+          -p:Platform=iPhoneSimulator \
+          -p:BuildIpa=false
         
-    - name: Listar archivos generados
-      run: |
-        echo "=== Buscando archivos .app ==="
-        find . -name "*.app" -type d 2>/dev/null || echo "No .app files found"
-        echo "=== Buscando archivos .ipa ==="
-        find . -name "*.ipa" -type f 2>/dev/null || echo "No .ipa files found"
-        
-    - name: Subir artefactos (.ipa)
-      if: success()
+    - name: Upload App Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ios-ipa-file
-        path: |
-          **/bin/Release/net9.0-ios/iphone/*.ipa
-        retention-days: 30
-        
-    - name: Subir artefactos (.app)
-      if: success()
-      uses: actions/upload-artifact@v4
-      with:
-        name: ios-app-simulator
-        path: |
-          **/bin/Release/net9.0-ios/iphonesimulator/*.app
-        retention-days: 30
+        name: ios-app
+        path: "**/bin/Release/net9.0-ios/**/*.app"
